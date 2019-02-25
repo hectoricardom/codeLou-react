@@ -17,22 +17,10 @@ export default class Icons extends Component {
        
   }
   componentDidMount(){     
-    var _th6_ = this;        
-    if(_th6_.IconCont){     
-    }
+    
     
   }
-
-  initializeEvent(){
-  }
-
-  ref = r => {    
-    this.vlist = r       
-  }
-  refC = r => {    
-    this.IconCont = r       
-  }
-  
+ 
   render() {
     var _th6_ = this;
     const {name, size, color,style} = _th6_.props; 
@@ -47,10 +35,7 @@ export default class Icons extends Component {
     if(svgPath[0]){
       var markup = svgPath[0].icons;
       return (
-        <div className={`Icon_Cnt`} ref={this.refC} style={_sty}>        
-        {styleAN}      
-        <svg  fill={Color} ref={this.ref} height={sZ} viewBox="0 0 24 24" width={sZ} dangerouslySetInnerHTML={{ __html: markup }} />
-        </div>
+         <svg  fill={Color} ref={this.ref} height={sZ} viewBox="0 0 24 24" width={sZ} dangerouslySetInnerHTML={{ __html: markup }} />        
       )
     }
     else{
@@ -69,7 +54,8 @@ const IconsList = [
   {name:'arrow_right',icons:`<path d="M8.59,16.59L13.17,12L8.59,7.41L10,6l6,6l-6,6L8.59,16.59z"/><path fill="none" d="M0,0h24v24H0V0z"/>`},
   {name:'arrow_left',icons:`<path d="M15.41,16.59L10.83,12l4.58-4.59L14,6l-6,6l6,6L15.41,16.59z"/><path fill="none" d="M0,0h24v24H0V0z"/>`},
   {name:'menu',icons:`<path d="M0 0h24v24H0z" fill="none"/><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>`},
+  {name:'send',icons:`<path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/><path d="M0 0h24v24H0z" fill="none"/>`},  
+  {name:'ckeck-circle',icons:`<path fill="none" d="M0 0h24v24H0V0z"/><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zM9.29 16.29L5.7 12.7c-.39-.39-.39-1.02 0-1.41.39-.39 1.02-.39 1.41 0L10 14.17l6.88-6.88c.39-.39 1.02-.39 1.41 0 .39.39.39 1.02 0 1.41l-7.59 7.59c-.38.39-1.02.39-1.41 0z"/>`}, 
   {name:'hire',icons:`<path d="M0 0h24v24H0z" fill="none"/><path d="M12 7V3H2v18h20V7H12zM6 19H4v-2h2v2zm0-4H4v-2h2v2zm0-4H4V9h2v2zm0-4H4V5h2v2zm4 12H8v-2h2v2zm0-4H8v-2h2v2zm0-4H8V9h2v2zm0-4H8V5h2v2zm10 12h-8v-2h2v-2h-2v-2h2v-2h-2V9h8v10zm-2-8h-2v2h2v-2zm0 4h-2v2h2v-2z"/>`},
   {name:'mentor',icons:`<circle cx="9" cy="9" r="4"/><path d="M9 15c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm7.76-9.64l-1.68 1.69c.84 1.18.84 2.71 0 3.89l1.68 1.69c2.02-2.02 2.02-5.07 0-7.27zM20.07 2l-1.63 1.63c2.77 3.02 2.77 7.56 0 10.74L20.07 16c3.9-3.89 3.91-9.95 0-14z"/><path fill="none" d="M0 0h24v24H0z"/>`},
 ]
-

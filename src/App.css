@@ -32,3 +32,24 @@ body {
   color: #61dafb;
 }
 
+.content_body{
+  max-width: 1260px;    
+}
+
+
+.content_home{
+  margin-top: 50px;
+}
+
+.content_details{
+  margin-top: 50px;
+}
+
+.content_forms{
+  background: var(--background--color--cards);
+  padding: 25px 0;
+}
+
+/* lili prima 58591665 */
+
+/* 176,82,65 */

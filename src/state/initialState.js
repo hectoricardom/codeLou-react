@@ -2,10 +2,16 @@ export default {
   common:{
     technology:[],
     involved:[],
-    faq:[],
+    learn:{},
+    mentor:{},
+    hire:{},
     sections:[],
     isMobile:false,    
-    appLoaded:false,      
+    appLoaded:false,  
+    path:'',
+    forms:{},
+    validationForms:{},
+    formObserve:0,
     screen_size:0
   }
 }

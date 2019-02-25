@@ -76,7 +76,7 @@
 }
 
 .left_SectionTextMedias .u-grid--override {
-    min-height: 450px;
+    min-height: 150px;
 }
 
 
@@ -150,7 +150,8 @@
 
 .center_Tab_Nav_Item img, .center_Tab_Nav_Item svg {
     display: block;
-    margin: 0 auto;    
+    margin: 0 auto;   
+    fill: var(--tab--nav-icon-color--);
 }
 
 svg:not(:root) {
@@ -270,7 +271,7 @@ svg:not(:root) {
     margin: 0 auto;
     max-width: 1440px;
     min-width: 320px;
-    padding: 60px 20px;
+    padding: 10px 20px;
 }
 
 .section_involved{
@@ -279,7 +280,7 @@ svg:not(:root) {
 
 @media only screen and (max-width: 1199px){
     .left_SectionTextMedias .u-grid--override {
-        min-height: 625px;
+        min-height: 25px;
     }
 }
 

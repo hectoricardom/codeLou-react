@@ -9,28 +9,27 @@ import CryptoJS from 'crypto-js';
 
 var animatinClass ='';
 var _root =null,_rootC = null, dark = false, scroll = 0,totalHeight=0;
+export function addScroll2(s) { 
+   // document.addEventListener('scroll',scrollEvent);
+}
 
 
 export function scroll2(s) {   
-    if(!_rootC){
-        _rootC = document.getElementById('content_body');
-    }    
+    _rootC = !_rootC?document.getElementById('content_body'):_rootC;   
     animatinClass = `.52s`;
     setTimeout(()=>{
         _rootC.style.transform = `translate3d(0px,-${s}px,0)`;
         _rootC.style['transition-duration'] = animatinClass;   
         window.scrollTo(0,s);     
         setTimeout(()=>{
-            animatinClass = `.0002s`;
+            animatinClass = `.12s`;
         },500)       
     },5)
 }
 
 
 export function UpdateTotalHeight(th) {
-    if(!_rootC){
-        _rootC = document.getElementById('content_body');
-    }
+    _rootC = !_rootC?document.getElementById('content_body'):_rootC;
     if(th){
         totalHeight=th/2;
         _rootC.style['max-height'] = totalHeight+'px'; 
@@ -38,29 +37,18 @@ export function UpdateTotalHeight(th) {
 }
 
 
-export function scrollEvent() {
-    if(!_rootC){
-        _rootC = document.getElementById('content_body');
-    }    
-    if(totalHeight<=100){
-        calc_TotalHeight();
-    }    
-    scroll  =  window.pageYOffset || document.documentElement.scrollTop;   
+export function scrollEvent(t) {    
+    _rootC = !_rootC?document.getElementById('content_body'):_rootC;        
+    totalHeight<=100 && calc_TotalHeight();    
+    totalHeight = totalHeight!==t?totalHeight=t:totalHeight;    
+    scroll  =  window.pageYOffset || document.documentElement.scrollTop;    
     const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
-    if(_rootC && totalHeight>scroll+windowHeight){         
-        _rootC.style.transform = `translate3d(0px,-${scroll}px,0)`; 
-        _rootC.style['transition-duration'] = animatinClass;        
-    }  
-    //const windowHeight = (window.innerHeight || document.documentElement.clientHeight);
-        
-        /*var rt = scroll*2 + 20;
-        for(var sp in listH){
-            if(rt<listH[sp].e && rt>=listH[sp].s){    
-                ScrollIntoView(sp*1,true)
-            } 
-        }*/
-    
+    if(_rootC && totalHeight>scroll*2+windowHeight){
+        _rootC.style['transition-duration'] = animatinClass;     
+        _rootC.style.transform = `translate3d(0px,-${scroll}px,0)`;
+    }
 }
+
 
 
 function calc_TotalHeight() {
@@ -79,21 +67,104 @@ function calc_TotalHeight() {
 }
 
 
+export function bodyOverflow(b){
+    var bdy  = document.getElementsByTagName('body')[0];
+    if(b){      
+      bdy.style.overflowY = `hidden`;
+      bdy.style.width = `calc( 100% - 16px)`;
+    }else{
+      bdy.style.overflowY = `scroll`;
+      bdy.style.width = `100%`; 
+    }    
+}
 
-export function changetheme(){
+  var keys = {33:1, 34:1, 35:1, 36:1,  38: 1, 40: 1};
+
+  // left: 37, up: 38, right: 39, down: 40,
+  // spacebar: 32, pageup: 33, pagedown: 34, end: 35, home: 36
+   
+function preventDefault(e) {
+    e = e || window.event;
+    if (e.preventDefault)
+        e.preventDefault();
+    e.returnValue = false;  
+}
+  
+function preventDefaultForScrollKeys(e) {
+    if (keys[e.keyCode]) {
+        preventDefault(e);
+        return false;
+    }
+}
+
+
+export function disableScroll() {
+    if (window.addEventListener) // older FF
+        window.addEventListener('DOMMouseScroll', preventDefault, false);
+    window.onwheel = preventDefault; // modern standard
+    window.onmousewheel = document.onmousewheel = preventDefault; // older browsers, IE
+    window.ontouchmove  = preventDefault; // mobile
+    document.onkeydown  = preventDefaultForScrollKeys;
+  }
+  
+export function enableScroll() {
+      if (window.removeEventListener)
+          window.removeEventListener('DOMMouseScroll', preventDefault, false);
+      window.onmousewheel = document.onmousewheel = null; 
+      window.onwheel = null; 
+      window.ontouchmove = null;  
+      document.onkeydown = null;  
+  }
+
+
+
+
+export function changetheme(s){
+    var  light_style = `
+    --dropDown--background--color:#ffffff;
+    --footer--text-color--: #c4c4c4 ;
+    --background--color--cards: #fafafa;
+    --slide__card--p-color--:#6e6e6e;
+    --slide__card--title-color--:#5e5e5e;
+    --tip__card--p-color--:#777;
+    --color-logo_:#333;
+    --color-base--hover:#e91e63;
+    --background--color: #f5f5f5;
+    --colorText_: #263238;
+    --icon--color_: #b0bec5;
+    --tip__card--backgropund-Color--:#fff;
+    --tab--nav-Color--:#5f6368;    
+    --tab--nav-icon-color--:#c7c7c7;
+    --fill--theme--color:#666;`;
+
+    var  dark_style = `
+    --dropDown--background--color: #263238;
+    --footer--text-color--:#3a3a3a ;
+    --background--color--cards: #263238;
+    --slide__card--p-color--:#aaaaaa;
+    --slide__card--title-color--:#e5e5e5;
+    --tip__card--p-color--:#aaaaaa;
+    --color-logo_:#fff;
+    --color-base--hover:#e91e63;
+    --background--color: #263238;
+    --colorText_: #e5e5e5;
+    --icon--color_: #b0bec5;
+    --tip__card--backgropund-Color--:#444;
+    --tab--nav-Color--:#aaaaaa;
+    --tab--nav-icon-color--:#aaaaaa;
+    --fill--theme--color:#f5f5f5;`;
+
     if(!_root){
         _root = document.getElementById('root');
+    }    
+    if(s){
+        _root.style = light_style;        
     }
-        if(dark){
-            dark = false;
-            let style = `--tip__card--p-color--:#777;--color-logo_:#333;--color-base--hover:#e91e63;--background--color: #f5f5f5;--colorText_: #263238;--icon--color_: #b0bec5;--tip__card--backgropund-Color--:#fff;--tab--nav-Color--:#92989b;--fill--theme--color:#666;`;
-            _root.style = style;
-        }else{
-            dark = true;
-            let style = `--tip__card--p-color--:#aaaaaa;--color-logo_:#fff;--color-base--hover:#e91e63;--background--color: #263238;--colorText_: #f5f5f5;--icon--color_: #b0bec5;--tip__card--backgropund-Color--:#444;--tab--nav-Color--:#fff;--fill--theme--color:#f5f5f5;`;
-            _root.style = style;
-        }
-          
+    else{
+        dark = !dark;
+        dark?_root.style = dark_style:_root.style = light_style;
+        
+    }          
 }
 
 
@@ -690,7 +761,7 @@ export function ValidateField(value,params){
     var rs = {valid:true,msg:''};    
     ObjectKeys(params).map(pr=>{   
         if(pr==='required'){
-            if(value.length==0){
+            if(value.length===0){
                 rs = {valid:false,msg:params[pr]['msg']}
             }
         } 
@@ -1121,17 +1192,53 @@ export function isInViewport(el) {
 
 
 
-/*    
-this.setupSectionElements_();this.measureSectionPositions_();this.measureSectionNav_();this.winEl_.on("scroll",angular.bind(this,function(){this.handleScroll_()}));this.winEl_.on("resize",angular.bind(this,function(){this.measureSectionPositions_();this.measureSectionNav_()}))};z.SubNavController.$inject="$scope $element $timeout $window $location glueModalService glueBreakpoint scrollService positionService".split(" ");z.SubNavController.Class={ACTIVE:"js-menulay-active",SECTION_NAV:"sub-nav"};
-z.SubNavController.DOM_DELAY=500;z.SubNavController.prototype.setupSectionElements_=function(){var a=this.ngElement_[0].querySelectorAll("[data-section-id]");Array.prototype.slice.call(a).forEach(function(a,d){var c=a.getAttribute("data-section-id");this.subNavSections_[c]={element:a,index:d}},this)};
-z.SubNavController.prototype.measureSectionPositions_=function(){this.ngTimeout_(angular.bind(this,function(){for(var a in this.subNavSections_){var c=this.subNavSections_[a];c.yPos=this.positionService_.getPosition(c.element).y;c.yPos+=this.measureBorderTop_(c.element)}this.handleScroll_();a=this.ngLocation_.hash();this.subNavSections_[a]&&(this.scrollToSection(a),this.ngLocation_.hash(""))}),z.SubNavController.DOM_DELAY,!1)};
-z.SubNavController.prototype.measureSectionNav_=function(){var a=this.ngElement_[0].querySelector("."+z.SubNavController.Class.SECTION_NAV);this.navHeight_=a?a.offsetHeight:0};z.SubNavController.prototype.measureBorderTop_=function(a){a=this.ngWindow_.getComputedStyle(a).getPropertyValue("border-top-width")||0;return parseInt(a,10)};
-z.SubNavController.prototype.scrollToSection=function(a){var c=this.subNavSections_[a].yPos;this.ngScope_.$emit("autoScrolling",!0);this.scrollService_.scrollToPosition(c,-1*this.navHeight_,angular.bind(this,function(){this.ngScope_.$emit("autoScrolling",!1)}));this.selectedSection=a;this.ngScope_.$broadcast("subNavNavSelectedIndexChange",this.subNavSections_[a].index)};f.exportProperty(z.SubNavController.prototype,"scrollToSection",z.SubNavController.prototype.scrollToSection);
-z.SubNavController.prototype.handleScroll_=function(){var a=this.ngWindow_.pageYOffset,c,d;for(d in this.subNavSections_)a>=this.subNavSections_[d].yPos-this.navHeight_&&(c=d);0===a&&(this.selectedSection=null,this.ngScope_.$applyAsync());c&&c!==this.selectedSection&&!this.scrollService_.scrolling&&(this.selectedSection=c,this.ngScope_.$broadcast("subNavNavSelectedIndexChange",this.subNavSections_[c]&&this.subNavSections_[c].index),this.ngScope_.$applyAsync())};
-z.SubNavController.prototype.setupModalMenus_=function(){this.bodyEl=angular.element(document).find("body");angular.element(document).on("touchend click",angular.bind(this,function(){this.activeModal&&this.activeModalName&&this.glueModalService_.hideModal(this.activeModalName)}));this.ngScope_.$on(n.ng.modal.container.ModalCtrl.Event.SHOWN,angular.bind(this,function(a,c,d){this.activeModal=angular.element(d)[0];this.activeModalName=c;var e;this.bodyEl.addClass(z.SubNavController.Class.ACTIVE);this.ngTimeout_(function(){var a=
-angular.element(d)[0].querySelectorAll("a");f.array.forEach(a,function(a,c){a.setAttribute("tabindex",c+1);0==c&&(a.focus(),e=a)},this)},50);f.events.listenOnce(this.activeModal,"mouseover",function(){e&&e.blur()},!1,this);f.events.listen(document,"keydown",this.keyboardHandler_,!1,this)}));this.ngScope_.$on(n.ng.modal.container.ModalCtrl.Event.HIDDEN,angular.bind(this,function(a,c){c==this.activeModalName&&(f.events.unlisten(document,"keydown",this.keyboardHandler_,!1,this),this.activeModalName=
-this.activeModal=null,this.bodyEl.removeClass(z.SubNavController.Class.ACTIVE))}))};
-z.SubNavController.prototype.keyboardHandler_=function(a){var c=this.activeModal.querySelector("ul").querySelectorAll("a"),d=0;if(a.keyCode===f.events.KeyCodes.UP||a.keyCode===f.events.KeyCodes.DOWN)a.preventDefault(),c[0]!=document.activeElement&&angular.forEach(c,function(a,c){a==document.activeElement&&(d=c)}),a.keyCode===f.events.KeyCodes.DOWN?d++:a.keyCode===f.events.KeyCodes.UP&&(0>=d?d=c.length-1:d--),d>=c.length&&(d=0),c[d].focus()};f.i18n.CompactNumberFormatSymbols_af={COMPACT_DECIMAL_SHORT_PATTERN:{1E3:{other:"0\u00a0k"},1E4:{other:"00\u00a0k"},1E5:{other:"000\u00a0k"},1E6:{other:"0\u00a0m"},1E7:{other:"00\u00a0m"},1E8:{other:"000\u00a0m"},1E9:{other:"0\u00a0mjd"},1E10:{other:"00\u00a0mjd"},1E11:{other:"000\u00a0mjd"},1E12:{other:"0\u00a0bn"},1E13:{other:"00\u00a0bn"},1E14:{other:"000\u00a0bn"}},COMPACT_DECIMAL_LONG_PATTERN:{1E3:{other:"0 duisend"},1E4:{other:"00 duisend"},1E5:{other:"000 duisend"},1E6:{other:"0 miljoen"},
+export function emailValidate(v){
+    return /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(v)
+}
 
-*/
+export function ssnValidate(v){
+    return /^[\dX]{3}-?[\dX]{2}-?[\dX]{4}$/.test(v)
+}
 
+export function phoneValidate(v){
+    return /^[\dX]{3}-?[\dX]{3}-?[\dX]{4}$/.test(v)
+}
+
+export function dobValidate(v){
+    return /^(\d{2})(\/)(\d{2})(\/)(\d{4})$/.test(v)
+}
+
+
+export async function getAddress(q){
+    q = q.split('%20').map((e)=>{return e.capitalize()}).join('%20');
+    var api = `https://www.google.com/s?tbm=map&gs_ri=maps&suggest=p&authuser=0&hl=es&gl=us&pb=!2i4!4m9!1m3!1d14928.327758595553!2d-85.77029233022462!3d38.10847554999999!2m0!3m2!1i1059!2i913!4f13.1!7i20!10b1!12m6!2m3!5m1!6e2!20e3!10b1!16b1!19m4!2m3!1i360!2i120!4i8!20m57!2m2!1i203!2i100!3m2!2i4!5b1!6m6!1m2!1i86!2i86!1m2!1i408!2i200!7m42!1m3!1e1!2b0!3e3!1m3!1e2!2b1!3e2!1m3!1e2!2b0!3e3!1m3!1e3!2b0!3e3!1m3!1e8!2b0!3e3!1m3!1e3!2b1!3e2!1m3!1e9!2b1!3e2!1m3!1e10!2b0!3e3!1m3!1e10!2b1!3e2!1m3!1e10!2b0!3e4!2b1!4b1!9b0!22m3!1sl6hwXOW6E8uSjwSvgLeYBQ!3b1!7e81!23m2!4b1!10b1!24m26!2b1!5m5!2b1!3b1!5b1!6b1!7b1!10m1!8e3!14m1!3b1!17b1!20m2!1e3!1e6!24b1!25b1!26b1!30m1!2b1!36b1!43b1!52b1!55b1!56m1!1b1!26m4!2m3!1i80!2i92!4i8!34m1!3b1!37m1!1e81!47m0!49m1!3b1&pf=t&tch=1&q=${q}`     
+    const res = await fetch(api, {
+        method: 'get',
+        headers: {
+        }     
+      });
+      const resJSON = await res.text();
+      return parseAddress(resJSON);          
+}
+
+function parseAddress(body){
+    var a = { }
+    body = body.replace(/\\/g, '')            
+    var _null = new RegExp('null','g');            
+    body = body.replace(_null, "");        
+    body.split('","e":"')[0].split(']n,,,,[,,').map(s=>{
+        s = s.replace(/\//g, "")                                
+        var xtr = s;
+        var dd = xtr && xtr.indexOf('","') >= 0 ? xtr.split('","')[1] && xtr.split('","')[1].split('",,[,,')[0] : xtr && xtr.indexOf(']n,,,["') >= 0?xtr.split(']n,,,["')[1].split('"]n,,,,,,')[0]:'';
+        var position = xtr && xtr.indexOf(']n,,[["') >= 0 ? xtr.split(']n,,[["')[0]: xtr && xtr.indexOf(']n,,,["') >= 0 ? xtr.split(']n,,,["')[0]:'';   
+        var addr = dd && dd.split(',');
+        var address = addr && addr[0];
+        var city = addr && addr[1];
+        var state = addr && addr[2];                        
+        if(state && !a[dd]){
+            var tt = {address:address,city:city,state:state,position:position}                    
+            a[dd] = tt;
+        }                
+    })
+    return a; 
+}

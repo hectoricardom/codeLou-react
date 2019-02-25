@@ -137,7 +137,7 @@
 }
 
 .navBox [role='menuitem']:active, .navBox [role='menuitem']:focus, .navBox [role='menuitem']:hover {
-    color: var(--color-base--hover);
+    /*color: var(--color-base--hover);*/
     text-decoration: none;
 }
 

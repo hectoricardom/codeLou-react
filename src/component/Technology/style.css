@@ -1,24 +1,24 @@
 
 /***********************************************************    slider-technology--controls     ***********************************************************/
 
-.slider-technology--controls {
+.slider-technology--controls {    
     display: none;
-    margin: 25px auto;
+    margin: 5px auto 15px auto;
     width: 160px;
 }
 .slider-technology--controls li {
     display: inline-block;
     list-style: none;
-    margin: 0 5px;
+    margin: 0 10px;
 }
 .slider-technology--controls li button {
     background-color:  var(--color-base--hover);
     border: none;
-    border-radius: 5px;
+    border-radius: 12px;
     display: block;
-    height: 10px;
+    height: 12px;
     padding: 0;
-    width: 10px;
+    width: 12px;
     outline: none;
 } 
 
@@ -109,11 +109,12 @@ button, [type="button"], [type="reset"], [type="submit"] {
     overflow: hidden;
     position: relative;
     width: 100%;
-    padding-top: 60px;
+    padding-top: 30px;
     opacity: 0;
     -webkit-transform: scale(0.4);
     -ms-transform: scale(0.4);
     transform: scale(0.4);
+    
     -webkit-transition: opacity .6s ease-in-out, -webkit-transform .5s ease-out;
     transition: opacity .6s ease-in-out, -webkit-transform .5s ease-out;
     transition: opacity .6s ease-in-out, transform .5s ease-out;
@@ -130,9 +131,10 @@ button, [type="button"], [type="reset"], [type="submit"] {
     transition-delay: 0.312s;
 }
 
-.slider-technology--slides {
-    margin: 0 0 10px;
+.slider-technology--slides {    
     position: relative;
+    max-width: 1260px;
+    margin: 0 auto !important;
 }
 
 
@@ -204,7 +206,7 @@ button, [type="button"], [type="reset"], [type="submit"] {
 }
 
 .slider-technology--slide-text {
-    padding: 40px 0;
+    padding: 10px 0;
     margin: 0 auto;
 }
 

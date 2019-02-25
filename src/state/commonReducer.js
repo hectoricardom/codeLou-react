@@ -34,10 +34,20 @@ export default function (state = initialState.common, action) {
         involved: action.involved
       };
 
-    case types.FAQ_SUCCESS:
+    case types.LEARN_SUCCESS:
       return {
         ...state,
-        faq: action.faq
+        learn: action.learn
+      };
+    case types.MENTOR_SUCCESS:
+      return {
+        ...state,
+        mentor: action.mentor
+      };
+    case types.HIRE_SUCCESS:
+      return {
+        ...state,
+        hire: action.hire
       };
 
     case types.SECTION_LIST:
@@ -45,8 +55,27 @@ export default function (state = initialState.common, action) {
         ...state,
         sections: action.sections
       };
+
+    case types.CURRENT_PATH:
+      return {
+        ...state,
+        path: action.path
+      };
+    case types.FORMS_SUCCESS:
+      return {
+        ...state,
+        forms: action.forms
+      };
+
+    case types.FORMS_OBSERVES:
+      return {
+        ...state,
+        formObserve: action.formObserve
+      };
       
     default:
       return state;
   }
 }
+
+

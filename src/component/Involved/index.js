@@ -1,12 +1,12 @@
 
 
 import React, { Component } from 'react';
-import { withRouter} from 'react-router-dom';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as commonActions from '../../state/commonActions';
 import Icons from '../Icons/Icons';
 import WithScroll from '../scroll-decorator';
+import { NavLink} from 'react-router-dom';
 import * as Util from '../../state/Util';
 import './style.css';
 
@@ -55,7 +55,7 @@ class Involved extends Component {
   }
 
   componentDidMount(){  
-    
+    this.scrollhandler();
   }
 
 
@@ -79,7 +79,7 @@ class Involved extends Component {
   render() {
       const {UpdateIndex,scrollhandler} = this;     
       return ( 
-          <section id="section_get_involved" section-index="1" className="section_involved">
+          <section id="section_get_involved" section-index="Get Involved" className="section_involved">
                     <div className="o-container">
                       <div className="left_Section__intro section_involved_width tablet--10-12 --auto--margin">
                         <h2 className="text-large">Three ways to get involved:</h2>
@@ -98,12 +98,13 @@ class Involved extends Component {
                                       var ariaHidden =  false;
                                       if(this.state.index===i){
                                         ariaHidden =  true;
-                                      }
+                                      }                                      
+                                      var path = { pathname: sl.link }
                                       return (
                                             <div className="left_Section left_SectionTextMedia left_SectionTextMedias lSectionNoPadding center_Tabs_Section" aria-hidden={ariaHidden} aria-labelledby="" key={i} role="tabpanel">
-                                              <div className="--auto--margin grid--middle u-grid--override center_Tab_Content_Slide  desktop--6-12 tablet--8-12 mobile--11-12">
+                                             {this.state.index===i? <div className="--auto--margin grid--middle u-grid--override center_Tab_Content_Slide  desktop--6-12 tablet--8-12 mobile--11-12">
                                                   <div className="grid__item desktop--7-12 tablet--12-12">
-                                                    <div className="left_Section__media left_Section__media--raised u-text-align-center fade-and-slide fade-and-slide--right">
+                                                    <div className="left_Section__media left_Section__media--raised u-text-align-center fade-and-slide fade-and-slide--right --auto--margin ">
                                                         <div className="left_Section__media-wrapper left_Section__media-wrapper--wear left_Section__media-wrapper--wear">
                                                               <img className="wrapperImg"  src={sl.img} alt=""/>                          
                                                         </div>
@@ -113,10 +114,10 @@ class Involved extends Component {
                                                     <div className="left_Section__text cascade-text desktop--10-12 tablet--8-12 --auto--margin">
                                                       <h3 className="beta cascade-text__item">{sl.title}</h3>
                                                       <p className="text-normal cascade-text__item">{sl.description}</p>
-                                                      <a href={sl.link} className="btn btn--text cascade-text__item" >see details</a>                                         
+                                                      <NavLink  to={path} className="btn btn--text cascade-text__item" >see details </NavLink>                                                                                           
                                                     </div>
                                                   </div>
-                                                </div>
+                                                </div>:null}
                                           </div>
                                         )
                                       })
@@ -176,24 +177,8 @@ class TabI extends Component {
     },25);
   }
 
-  reCalcSection(){
-    var listH = [];
-    var sumH=0;
-    var section_list = document.querySelectorAll('[section-index]');
-    for(var i =0;i<section_list.length;i++){
-        var hh = section_list[i];
-        var lastS = sumH;
-        sumH+=hh.getBoundingClientRect().height;
-        listH.push({s:lastS,e:sumH});             
-    }
-    Util.UpdateTotalHeight(sumH)
-    this.props.commonActions.sectionList(listH);
-  }
-
-
   TabIndicator(){
     var els = document.querySelectorAll('[data-item]'); 
-    this.reCalcSection()
     var listTabH = [],sumTH = 0;
     for(var ss =0;ss<els.length;ss++){
       var hh =els[ss].getBoundingClientRect().width;
@@ -211,6 +196,9 @@ class TabI extends Component {
     this.TabIndicator();
     if(typeof this.props.UpdateIndex === "function" ){
       this.props.UpdateIndex(i);
+      if(window.outerWidth<=600){
+        Util.scroll2(70);
+      }    
     }
   }
 

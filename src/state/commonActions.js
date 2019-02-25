@@ -21,8 +21,14 @@ export function LoadData() {
         if(res['envolved']){
           dispatch(UpdInvolved(res['envolved']));
         }
-        if(res['faq']){
-          dispatch(UpdFAQ(res['faq']));
+        if(res['learn']){
+          dispatch(UpdLearn(res['learn']));
+        }
+        if(res['mentor']){
+          dispatch(UpdMentor(res['mentor']));
+        }
+        if(res['hire']){
+          dispatch(UpdHire(res['hire']));
         }
         dispatch(appLoaded(true));
       }
@@ -48,13 +54,28 @@ export function UpdInvolved(res) {
   };
 }
 
-export function UpdFAQ(res) {
+
+
+export function UpdLearn(res) {
   return {
-    type: types.FAQ_SUCCESS,
-    faq : res
+    type: types.LEARN_SUCCESS,
+    learn : res
   };
 }
 
+export function UpdMentor(res) {
+  return {
+    type: types.MENTOR_SUCCESS,
+    mentor : res
+  };
+}
+
+export function UpdHire(res) {
+  return {
+    type: types.HIRE_SUCCESS,
+    hire : res
+  };
+}
 
 
 export function UpdIsMobile(res) {
@@ -88,3 +109,64 @@ export function appLoaded(res) {
       sections: res
     };
   }
+
+  export function setPath(res) {
+    return {
+      type: types.CURRENT_PATH,
+      path: res
+    };
+  }
+
+
+  export function UpdateFormbyName(form,v){
+    return function (dispatch, getState) { 
+      const state = getState().common;
+      UpdForm(state,dispatch,form,v);
+    }
+  }
+  
+   
+  
+  export function UpdateForm(form,fld,v){
+    return function (dispatch, getState) {   
+      const state = getState().common;
+      var _forms = state.forms;
+      if(!_forms[form]){
+        _forms[form] = {}
+      }
+      _forms[form][fld] =v;    
+      UpdForm(state,dispatch,form,_forms[form]);
+    }
+  }
+
+
+  function UpdForm(state,dispatch, form,v){
+    var __forms = state.forms; 
+    var foBs =  state.formObserve + 1;
+    if(!__forms[form]){
+      __forms[form] = {}
+    }
+    __forms[form] =v;
+    dispatch(retrieveFormSuccess(__forms)); 
+    dispatch(retrieveFormOberves(foBs)); 
+  }
+  
+
+  export function retrieveFormSuccess(res) {
+    return {
+      type: types.FORMS_SUCCESS,
+      forms : res
+    };
+  }
+  
+  export function retrieveFormOberves(res) {
+    return {
+      type: types.FORMS_OBSERVES,
+      formObserve : res
+    };
+  }
+  
+
+
+
+

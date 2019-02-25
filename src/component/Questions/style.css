@@ -12,6 +12,14 @@
     position: relative;
 }
 
+.tip__card_opacity{
+    opacity: 0;
+    height: 360px;
+    width: 315px;
+    margin: 25px auto;
+}
+
+
 .tip__card-title{    
     font-size: 26px;
     color: var(--colorText_); 
@@ -53,12 +61,12 @@
 
 
 .tip__card svg {    
-    bottom: -40px;
+    bottom: -10px;
     content: '';
     display: block;
     height: 48px;
     position: absolute;
-    right: 0px;
+    right: 10px;
     width: 48px;
 }
 

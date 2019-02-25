@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import store from './state/store';
 import { HashRouter } from 'react-router-dom';
 import Home from './component'
-
+import * as Util from './state/Util';
 
 class App extends Component {
   constructor(props) {
@@ -20,8 +20,7 @@ class App extends Component {
   }
 
   componentDidMount(){
-    
-   
+   Util.changetheme(true);   
   }
 
 
